@@ -52,6 +52,7 @@ input,textarea,select{font-family:inherit;}
   width:46px; height:46px; border-radius:12px; font-size:1.15rem;
   display:flex; align-items:center; justify-content:center; flex:none;
 }
+.iconbtn.txt{width:auto; padding:0 14px; font-size:.95rem; font-weight:800;}
 .iconbtn:active{transform:scale(.96);}
 .backbtn{border:none; background:none; font-size:1.5rem; padding:4px 10px 4px 0; color:var(--ink); flex:none;}
 
@@ -89,13 +90,18 @@ input,textarea,select{font-family:inherit;}
 .chip.fill-mag{background:var(--mag); color:#fff;}
 .chip.fill-cyan{background:var(--cyan); color:#fff;}
 
+/* ---------- 챙길 일 요약 ---------- */
+.todo-card{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; margin:0 16px;}
+.todo-card .trow{display:flex; gap:10px; align-items:flex-start; padding:7px 0;}
+.todo-card .trow .chip{flex:none; margin-top:1px;}
+.todo-card .trow span.names{font-size:.95rem; font-weight:600; line-height:1.5;}
+
 /* ---------- 상세: 장부 행 ---------- */
 .ledger{background:var(--card); border:1px solid var(--line); border-radius:var(--r); overflow:hidden;}
 .lrow{display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid var(--line);}
 .lrow:last-child{border-bottom:none;}
 .lrow .k{width:88px; flex:none; color:var(--ink2); font-size:.9rem; font-weight:600;}
 .lrow .v{flex:1; min-width:0; font-weight:600; overflow-wrap:anywhere;}
-.lrow .v.dim{color:var(--ink2); font-weight:500;}
 .memo-block{white-space:pre-wrap; font-weight:500;}
 
 /* ---------- 기기 카드 ---------- */
@@ -108,6 +114,31 @@ input,textarea,select{font-family:inherit;}
 .mc .info .lbl{color:var(--ink2); font-weight:600;}
 .mc .memo{color:var(--ink2); font-size:.9rem; margin-top:8px; white-space:pre-wrap;}
 .editlink{border:none; background:none; color:var(--cyan); font-weight:700; font-size:.95rem; padding:6px 2px; flex:none;}
+.histbtn{margin-top:12px; min-height:46px !important; font-size:.98rem !important;}
+
+/* ---------- 검침/이력 행 ---------- */
+.hrow{padding:13px 16px; border-bottom:1px solid var(--line);}
+.hrow:last-child{border-bottom:none;}
+.hrow .top{display:flex; align-items:center; gap:10px;}
+.hrow .top .t{font-weight:800; flex:1; font-feature-settings:'tnum';}
+.hrow .sub{color:var(--ink2); font-size:.92rem; margin-top:3px; font-feature-settings:'tnum'; white-space:pre-wrap;}
+.hrow .amt{color:var(--ink); font-weight:800;}
+
+/* ---------- 청구 화면 ---------- */
+.monthnav{display:flex; align-items:center; justify-content:center; gap:14px; padding:14px 16px 2px;}
+.monthnav .ym{font-size:1.2rem; font-weight:800; min-width:130px; text-align:center; font-feature-settings:'tnum';}
+.total-card{background:var(--ink); color:var(--paper); border-radius:var(--r); padding:16px 18px; margin-bottom:14px;}
+.total-card .tl{font-size:.88rem; opacity:.75; font-weight:700;}
+.total-card .amt{font-size:1.5rem; font-weight:800; font-feature-settings:'tnum'; margin-top:2px;}
+.bill-co .bname{font-size:1.05rem; font-weight:800; margin-bottom:4px;}
+.bill-row{display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px dashed var(--line);}
+.bill-row:last-of-type{border-bottom:none;}
+.bill-row .bm{flex:1; min-width:0;}
+.bill-row .bm .mn{font-weight:700;}
+.bill-row .bm .bs{color:var(--ink2); font-size:.88rem; margin-top:1px; font-feature-settings:'tnum';}
+.bill-row .bc{font-weight:800; font-feature-settings:'tnum'; white-space:nowrap;}
+.bill-sub{display:flex; justify-content:space-between; padding-top:11px; margin-top:4px; border-top:1px solid var(--line); font-weight:800; font-feature-settings:'tnum';}
+.bill-note{color:var(--ink2); font-size:.85rem; text-align:center; margin:14px 0 4px;}
 
 /* ---------- 버튼 ---------- */
 .btn{
@@ -134,6 +165,7 @@ input,textarea,select{font-family:inherit;}
 .search::placeholder{color:#A6A49C;}
 .toggle-closed{width:100%; border:none; background:none; color:var(--ink2); font-weight:700; padding:12px; font-size:.95rem;}
 .empty{color:var(--ink2); text-align:center; padding:48px 24px; font-size:1rem; line-height:1.7;}
+.empty.small{padding:24px;}
 .notice{background:var(--mag-bg); color:var(--mag); border-radius:var(--r); padding:14px 16px; margin:16px; font-weight:700; display:flex; gap:12px; align-items:center;}
 .notice button{border:1px solid var(--mag); background:none; color:var(--mag); border-radius:10px; padding:8px 14px; font-weight:800; flex:none;}
 
@@ -150,6 +182,9 @@ textarea.input{min-height:96px; padding:14px 16px; resize:vertical; line-height:
 .seg{display:flex; border:1px solid var(--line); border-radius:var(--r); overflow:hidden; background:var(--card);}
 .seg button{flex:1; min-height:52px; border:none; background:none; font-size:1rem; font-weight:700; color:var(--ink2);}
 .seg button.on{background:var(--ink); color:var(--paper); font-weight:800;}
+.pick{display:flex; flex-wrap:wrap; gap:8px;}
+.pick button{border:1px solid var(--line); background:var(--card); border-radius:999px; padding:11px 17px; font-weight:700; color:var(--ink2); font-size:.98rem;}
+.pick button.on{background:var(--ink); color:var(--paper); border-color:var(--ink);}
 .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
 .hint{font-size:.85rem; color:var(--ink2); margin-top:6px;}
 
@@ -187,9 +222,6 @@ textarea.input{min-height:96px; padding:14px 16px; resize:vertical; line-height:
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important; transition:none!important;}
 }
-@media (min-width:600px){
-  .grid2-wide{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
-}
 </style>
 </head>
 <body>
@@ -197,7 +229,7 @@ textarea.input{min-height:96px; padding:14px 16px; resize:vertical; line-height:
 <div id="lock" hidden>
   <span class="cbar"><i></i><i></i><i></i><i></i></span>
   <h2>복합기 렌탈장부</h2>
-  <p>비밀번호 4자리를 눌러주세요</p>
+  <p>비밀번호 4자리를 눌러주세요 <span style="opacity:.5;font-size:.85em;">· v2</span></p>
   <div class="dots" id="dots"><i></i><i></i><i></i><i></i></div>
   <div class="pad" id="pad"></div>
   <div id="lockmsg"></div>
@@ -217,6 +249,7 @@ const BASE_HEADERS = {
   'Authorization': 'Bearer ' + SUPABASE_KEY,
   'Content-Type': 'application/json'
 };
+const LOG_TYPES = ['A/S', '정기점검', '토너교체', '설치', '회수', '기타'];
 
 /* ================= 저장소(안전 래퍼) ================= */
 function safeGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
@@ -227,10 +260,13 @@ function safeDel(k){ try{ localStorage.removeItem(k); }catch(e){} }
 const state = {
   companies: [],
   machines: [],
+  readings: [],
+  logs: [],
   loaded: false,
   error: null,
   q: '',
-  showClosed: false
+  showClosed: false,
+  billYm: null
 };
 
 /* ================= 유틸 ================= */
@@ -243,6 +279,9 @@ function parseD(s){
   const p = String(s).split('T')[0].split('-');
   if(p.length < 3) return null;
   return new Date(+p[0], +p[1]-1, +p[2]);
+}
+function ymd(d){
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
 }
 function fmtD(s){
   const d = parseD(s);
@@ -266,6 +305,13 @@ function elapsedText(s){
   if(mm > 0) return mm + '개월째';
   return '이번 달 시작';
 }
+function ymNow(){ const t = todayD(); return t.getFullYear() + '-' + String(t.getMonth()+1).padStart(2,'0'); }
+function ymAdd(ym, n){
+  const p = ym.split('-');
+  const d = new Date(+p[0], +p[1]-1+n, 1);
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+}
+function fmtYm(ym){ const p = ym.split('-'); return (+p[0]) + '년 ' + (+p[1]) + '월'; }
 function money(n){
   if(n === null || n === undefined || n === '') return '';
   const v = Number(n);
@@ -307,12 +353,16 @@ async function req(path, opt){
 }
 async function loadAll(silent){
   try{
-    const [cs, ms] = await Promise.all([
+    const [cs, ms, rs, ls] = await Promise.all([
       req('/companies?select=*&order=created_at.asc'),
-      req('/machines?select=*&order=created_at.asc')
+      req('/machines?select=*&order=created_at.asc'),
+      req('/readings?select=*&order=ym.asc'),
+      req('/service_logs?select=*&order=log_date.asc')
     ]);
     state.companies = cs || [];
     state.machines = ms || [];
+    state.readings = rs || [];
+    state.logs = ls || [];
     state.loaded = true;
     state.error = null;
     render();
@@ -344,7 +394,20 @@ async function deleteRow(table, id){
   await req('/' + table + '?id=eq.' + id, { method: 'DELETE' });
 }
 
-/* ================= 칩 계산 ================= */
+/* ================= 데이터 접근 ================= */
+function machinesOf(cid){ return state.machines.filter(m => m.company_id === cid); }
+function readingsOf(mid){
+  return state.readings.filter(r => r.machine_id === mid).sort((a, b) => a.ym < b.ym ? -1 : (a.ym > b.ym ? 1 : 0));
+}
+function logsOf(mid){
+  return state.logs.filter(l => l.machine_id === mid).sort((a, b) => {
+    if(a.log_date !== b.log_date) return a.log_date < b.log_date ? 1 : -1;
+    return (a.created_at || '') < (b.created_at || '') ? 1 : -1;
+  });
+}
+function companyActive(c){ return c && c.status !== '해지'; }
+
+/* ================= 칩/계산 ================= */
 function visitChip(dateStr, forHome){
   if(!dateStr) return forHome ? '' : '<span class="chip gray">미정</span>';
   const dd = diffDays(parseD(dateStr), todayD());
@@ -353,7 +416,7 @@ function visitChip(dateStr, forHome){
   if(dd <= 7) return '<span class="chip fill-cyan">방문 D-' + dd + '</span>';
   return '<span class="chip gray">방문 D-' + dd + '</span>';
 }
-function machineChips(m){
+function machineChips(m, isActive){
   const chips = [];
   if(m.start_date){
     chips.push('<span class="chip gray">계약 ' + elapsedText(m.start_date) + '</span>');
@@ -372,7 +435,54 @@ function machineChips(m){
     else if(days >= 90) cls = 'yel';
     chips.push('<span class="chip ' + cls + '">토너 ' + days + '일째</span>');
   }
+  if(isActive && m.rental_type === '매수제'){
+    const rs = readingsOf(m.id);
+    if(rs.length && !rs.some(r => r.ym === ymNow())){
+      chips.push('<span class="chip yel">이번 달 검침 전</span>');
+    }
+  }
   return chips.join('');
+}
+
+/* 월별 청구 계산: {charge, mono_used, color_used, mono_over, color_over, basis} */
+function calcMonth(m, ym){
+  const base = (m.base_fee === null || m.base_fee === undefined) ? 0 : Number(m.base_fee);
+  if(m.rental_type === '기간제') return { charge: base, basis: 'period' };
+  const rs = readingsOf(m.id);
+  const idx = rs.findIndex(r => r.ym === ym);
+  if(idx === -1) return { charge: base, basis: 'noread' };
+  const cur = rs[idx];
+  if(cur.is_reset || idx === 0) return { charge: base, basis: 'baseline' };
+  const prev = rs[idx - 1];
+  let mu = null, cu = null;
+  if(cur.mono_count !== null && cur.mono_count !== undefined && prev.mono_count !== null && prev.mono_count !== undefined){
+    mu = Math.max(cur.mono_count - prev.mono_count, 0);
+  }
+  if(cur.color_count !== null && cur.color_count !== undefined && prev.color_count !== null && prev.color_count !== undefined){
+    cu = Math.max(cur.color_count - prev.color_count, 0);
+  }
+  const mo = mu !== null ? Math.max(mu - (m.mono_pages || 0), 0) : 0;
+  const co = cu !== null ? Math.max(cu - (m.color_pages || 0), 0) : 0;
+  const charge = base + mo * (m.mono_over_fee || 0) + co * (m.color_over_fee || 0);
+  return { charge, mono_used: mu, color_used: cu, mono_over: mo, color_over: co, basis: 'ok' };
+}
+function basisText(r){
+  if(r.basis === 'period') return '기간제 · 기본료';
+  if(r.basis === 'noread') return '검침 없음 · 기본료만';
+  if(r.basis === 'baseline') return '기준 검침 달 · 기본료만';
+  const parts = [];
+  if(r.mono_used !== null) parts.push('흑백 +' + money(r.mono_used));
+  if(r.color_used !== null) parts.push('컬러 +' + money(r.color_used));
+  let t = parts.length ? '사용 ' + parts.join(' · ') : '카운터 미입력';
+  if(r.mono_over || r.color_over){
+    const ov = [];
+    if(r.mono_over) ov.push('흑 ' + money(r.mono_over) + '장');
+    if(r.color_over) ov.push('컬 ' + money(r.color_over) + '장');
+    t += ' / 초과 ' + ov.join(' · ');
+  }else{
+    t += ' / 기본 내';
+  }
+  return t;
 }
 
 /* ================= 라우팅 ================= */
@@ -401,6 +511,10 @@ function render(){
   if(parts[0] === 'c' && parts[1]) return renderDetail(parts[1]);
   if(parts[0] === 'cf') return renderCompanyForm(parts[1] || null);
   if(parts[0] === 'mf' && parts[1]) return renderMachineForm(parts[1], parts[2] || null);
+  if(parts[0] === 'hist' && parts[1]) return renderHist(parts[1]);
+  if(parts[0] === 'rf' && parts[1]) return renderReadingForm(parts[1], parts[2] || null);
+  if(parts[0] === 'lf' && parts[1]) return renderLogForm(parts[1], parts[2] || null);
+  if(parts[0] === 'bill') return renderBill();
   renderHome();
 }
 
@@ -413,13 +527,12 @@ function headerHTML(title, showTools, backHash){
     (backHash === undefined ? '<span class="cbar"><i></i><i></i><i></i><i></i></span>' : '') +
     '</h1>' +
     (showTools
-      ? '<button class="iconbtn" onclick="loadAll()" title="새로고침" aria-label="새로고침">↻</button>' +
+      ? '<button class="iconbtn txt" onclick="nav(\'#bill\')">청구</button>' +
+        '<button class="iconbtn" onclick="loadAll()" title="새로고침" aria-label="새로고침">↻</button>' +
         '<button class="iconbtn" onclick="relock()" title="잠금" aria-label="잠금">🔒</button>'
       : '') +
     '</div>';
 }
-
-function machinesOf(cid){ return state.machines.filter(m => m.company_id === cid); }
 
 function matchQ(c){
   const q = state.q.trim().toLowerCase();
@@ -430,14 +543,52 @@ function matchQ(c){
   return pool.some(v => v && String(v).toLowerCase().includes(q));
 }
 
+/* ---------- 챙길 일 요약 ---------- */
+function summaryHTML(){
+  const T = todayD();
+  const ym = ymNow();
+  const byId = {};
+  state.companies.forEach(c => { if(companyActive(c)) byId[c.id] = c; });
+  const exp = [], ton = [], unread = [];
+  state.machines.forEach(m => {
+    const c = byId[m.company_id];
+    if(!c) return;
+    const label = c.name + ' ' + m.model;
+    if(m.start_date && m.contract_months){
+      const end = addMonths(parseD(m.start_date), m.contract_months);
+      const dd = diffDays(end, T);
+      if(dd < 0) exp.push(label + ' (지남)');
+      else if(dd <= 30) exp.push(label + ' (D-' + dd + ')');
+    }
+    if(m.toner_date){
+      const d = diffDays(T, parseD(m.toner_date));
+      if(d >= 90) ton.push(label + ' (' + d + '일)');
+    }
+    if(m.rental_type === '매수제'){
+      const rs = readingsOf(m.id);
+      if(rs.length && !rs.some(r => r.ym === ym)) unread.push(label);
+    }
+  });
+  if(!exp.length && !ton.length && !unread.length) return '';
+  const row = (chip, cls, arr) =>
+    '<div class="trow"><span class="chip ' + cls + '">' + chip + '</span><span class="names">' + esc(arr.join(', ')) + '</span></div>';
+  return '<div class="sec-title" style="margin:14px 18px 8px;">이번에 챙길 일</div>' +
+    '<div class="todo-card">' +
+      (exp.length ? row('계약 만료', 'yel', exp) : '') +
+      (ton.length ? row('토너 점검', 'mag', ton) : '') +
+      (unread.length ? row('검침 필요', 'cyan', unread) : '') +
+    '</div>';
+}
+
 function renderHome(){
   const app = document.getElementById('app');
   app.innerHTML =
-    headerHTML('복합기 렌탈장부', true) +
-    '<div class="section" style="padding-bottom:8px;">' +
+    headerHTML('렌탈장부', true) +
+    '<div class="section" style="padding-bottom:0;">' +
       '<input class="search" id="searchbox" type="search" placeholder="업체명·담당자·기기 검색" value="' + esc(state.q) + '">' +
     '</div>' +
-    '<div class="section" id="colist" style="padding-top:4px;"></div>' +
+    summaryHTML() +
+    '<div class="section" id="colist" style="padding-top:12px;"></div>' +
     '<button class="fab" onclick="nav(\'#cf\')">＋ 업체 추가</button>';
 
   const sb = document.getElementById('searchbox');
@@ -514,12 +665,13 @@ function renderDetail(cid){
   }
   const ms = machinesOf(cid);
   const digits = String(c.phone || '').replace(/\D/g, '');
+  const active = companyActive(c);
 
   app.innerHTML =
     '<div class="topbar">' +
       '<button class="backbtn" onclick="nav(\'#\')" aria-label="뒤로">←</button>' +
       '<h1><span>' + esc(c.name) + '</span></h1>' +
-      '<button class="iconbtn" style="width:auto;padding:0 16px;font-size:1rem;font-weight:700;" onclick="nav(\'#cf/' + c.id + '\')">수정</button>' +
+      '<button class="iconbtn txt" onclick="nav(\'#cf/' + c.id + '\')">수정</button>' +
     '</div>' +
     '<div class="section">' +
       '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">' +
@@ -539,15 +691,15 @@ function renderDetail(cid){
 
       '<div class="sec-title">기기 <span class="cbar"><i></i><i></i><i></i><i></i></span> ' + ms.length + '대</div>' +
       (ms.length
-        ? ms.map(m => machineCardHTML(m)).join('')
+        ? ms.map(m => machineCardHTML(m, active)).join('')
         : '<div class="empty" style="padding:28px;">등록한 기기가 없어요.</div>') +
       '<button class="btn line" onclick="nav(\'#mf/' + c.id + '\')">＋ 기기 추가</button>' +
     '</div>';
 }
 function lrow(k, v){ return '<div class="lrow"><div class="k">' + k + '</div><div class="v">' + v + '</div></div>'; }
-function dim(t){ return '<span class="dim" style="color:var(--ink2);font-weight:500;">' + t + '</span>'; }
+function dim(t){ return '<span style="color:var(--ink2);font-weight:500;">' + t + '</span>'; }
 
-function machineCardHTML(m){
+function machineCardHTML(m, isActive){
   const lines = [];
   if(m.rental_type === '매수제' && (m.mono_pages || m.color_pages)){
     const p = [];
@@ -562,6 +714,13 @@ function machineCardHTML(m){
   if(fee.length) lines.push('<span class="lbl">요금</span> ' + fee.join(' · '));
   if(m.start_date) lines.push('<span class="lbl">계약 시작</span> <b>' + fmtD(m.start_date) + '</b>' + (m.contract_months ? ' · ' + m.contract_months + '개월 계약' : ''));
   if(m.toner_date) lines.push('<span class="lbl">토너 교체</span> <b>' + fmtD(m.toner_date) + '</b>');
+  if(m.toner_model) lines.push('<span class="lbl">토너 모델</span> <b>' + esc(m.toner_model) + '</b>');
+  const lg = logsOf(m.id)[0];
+  if(lg){
+    let mm = lg.memo ? String(lg.memo) : '';
+    if(mm.length > 26) mm = mm.slice(0, 26) + '…';
+    lines.push('<span class="lbl">최근 이력</span> <b>' + fmtD(lg.log_date) + '</b> ' + esc(lg.log_type) + (mm ? ' — ' + esc(mm) : ''));
+  }
 
   return '<div class="card mc">' +
     '<div class="head">' +
@@ -572,10 +731,228 @@ function machineCardHTML(m){
       '<span class="chip gray">' + esc(m.rental_type || '매수제') + '</span>' +
       '<button class="editlink" onclick="nav(\'#mf/' + m.company_id + '/' + m.id + '\')">수정</button>' +
     '</div>' +
-    '<div class="chips">' + machineChips(m) + '</div>' +
+    '<div class="chips">' + machineChips(m, isActive) + '</div>' +
     lines.map(l => '<div class="info">' + l + '</div>').join('') +
     (m.memo ? '<div class="memo">' + esc(m.memo) + '</div>' : '') +
+    '<button class="btn line histbtn" onclick="nav(\'#hist/' + m.id + '\')">검침 · 이력 보기</button>' +
   '</div>';
+}
+
+/* ---------- 검침·이력 화면 ---------- */
+function renderHist(mid){
+  const m = state.machines.find(x => x.id === mid);
+  if(!m){ nav('#'); return; }
+  const c = state.companies.find(x => x.id === m.company_id);
+  const app = document.getElementById('app');
+  const rs = readingsOf(mid).slice().reverse();
+  const ls = logsOf(mid);
+
+  const readRows = rs.map(r => {
+    const calc = calcMonth(m, r.ym);
+    const cnt = [];
+    if(r.mono_count !== null && r.mono_count !== undefined) cnt.push('흑백 ' + money(r.mono_count));
+    if(r.color_count !== null && r.color_count !== undefined) cnt.push('컬러 ' + money(r.color_count));
+    let sub = cnt.length ? '카운터 ' + cnt.join(' · ') : '카운터 미입력';
+    sub += '\n' + basisText(calc);
+    if(calc.basis === 'ok') sub += ' → <span class="amt">' + money(calc.charge) + '원</span>';
+    if(r.memo) sub += '\n' + esc(r.memo);
+    return '<div class="hrow">' +
+      '<div class="top">' +
+        '<span class="t">' + fmtYm(r.ym) + (r.is_reset ? ' <span class="chip gray" style="margin-left:4px;">기준</span>' : '') + '</span>' +
+        '<button class="editlink" onclick="nav(\'#rf/' + mid + '/' + r.id + '\')">수정</button>' +
+      '</div>' +
+      '<div class="sub">' + sub + '</div>' +
+    '</div>';
+  }).join('');
+
+  const logRows = ls.map(l =>
+    '<div class="hrow">' +
+      '<div class="top">' +
+        '<span class="t">' + fmtD(l.log_date) + ' <span class="chip gray" style="margin-left:4px;">' + esc(l.log_type) + '</span></span>' +
+        '<button class="editlink" onclick="nav(\'#lf/' + mid + '/' + l.id + '\')">수정</button>' +
+      '</div>' +
+      (l.memo ? '<div class="sub">' + esc(l.memo) + '</div>' : '') +
+    '</div>'
+  ).join('');
+
+  app.innerHTML =
+    headerHTML((c ? c.name + ' · ' : '') + m.model, false, '#c/' + m.company_id) +
+    '<div class="section">' +
+      '<div class="sec-title">검침 기록</div>' +
+      '<div class="ledger">' + (readRows || '<div class="empty small">아직 검침 기록이 없어요.<br>첫 입력은 <b>기준 검침</b>이 되고,<br>다음 달부터 사용량·청구액이 계산돼요.</div>') + '</div>' +
+      '<button class="btn line" style="margin-top:12px;" onclick="nav(\'#rf/' + mid + '\')">＋ 검침 입력</button>' +
+
+      '<div class="sec-title">관리 이력</div>' +
+      '<div class="ledger">' + (logRows || '<div class="empty small">아직 관리 이력이 없어요.</div>') + '</div>' +
+      '<button class="btn line" style="margin-top:12px;" onclick="nav(\'#lf/' + mid + '\')">＋ 이력 추가</button>' +
+    '</div>';
+}
+
+/* ---------- 검침 폼 ---------- */
+function renderReadingForm(mid, rid){
+  const m = state.machines.find(x => x.id === mid);
+  if(!m){ nav('#'); return; }
+  const r = rid ? state.readings.find(x => x.id === rid) : null;
+  const app = document.getElementById('app');
+  const isColor = m.rental_type !== '기간제';
+
+  app.innerHTML =
+    headerHTML((r ? '검침 수정' : '검침 입력') + ' · ' + m.model, false, '#hist/' + mid) +
+    '<div class="section">' +
+      field('검침 연월 <b>*</b>', '<input class="input" id="r_ym" type="month" value="' + esc(r ? r.ym : ymNow()) + '">') +
+      '<div class="grid2">' +
+        field('흑백 카운터(누적)', numInput('r_mono', r && r.mono_count)) +
+        field('컬러 카운터(누적)', numInput('r_color', r && r.color_count)) +
+      '</div>' +
+      '<div class="hint" style="margin:-6px 0 16px;">복합기에 표시되는 누적 매수 숫자를 그대로 적으면 돼요.</div>' +
+      field('구분', segHTML('r_reset', ['일반 검침', '기준(리셋)'], (r && r.is_reset) ? '기준(리셋)' : '일반 검침')) +
+      '<div class="hint" style="margin:-6px 0 16px;">기기를 교체했거나 카운터가 초기화됐을 때만 <b>기준(리셋)</b>을 선택하세요.</div>' +
+      field('메모', '<textarea class="input" id="r_memo" placeholder="메모 (선택)">' + esc(r ? r.memo : '') + '</textarea>') +
+      '<button class="btn" onclick="saveReading(\'' + mid + '\',' + (r ? '\'' + r.id + '\'' : 'null') + ')">저장</button>' +
+      (r ? '<button class="btn danger" onclick="removeReading(\'' + r.id + '\',\'' + mid + '\')">이 검침 삭제</button>' : '') +
+    '</div>';
+}
+async function saveReading(mid, rid){
+  const ym = document.getElementById('r_ym').value;
+  if(!ym){ toast('검침 연월을 선택해주세요'); return; }
+  const data = {
+    machine_id: mid,
+    ym,
+    mono_count: numOrNull('r_mono'),
+    color_count: numOrNull('r_color'),
+    is_reset: document.getElementById('r_reset').dataset.val !== '일반 검침',
+    memo: valOrNull('r_memo')
+  };
+  const dup = state.readings.find(x => x.machine_id === mid && x.ym === ym && x.id !== rid);
+  if(!rid && dup){ rid = dup.id; }
+  try{
+    if(rid){
+      const row = await updateRow('readings', rid, data);
+      const i = state.readings.findIndex(x => x.id === rid);
+      if(i > -1) state.readings[i] = row;
+      toast(dup ? '해당 월 검침이 있어 수정으로 저장했어요' : '저장했어요');
+    }else{
+      const row = await insertRow('readings', data);
+      state.readings.push(row);
+      toast('검침을 저장했어요');
+    }
+    navReplace('#hist/' + mid);
+  }catch(e){ toast('저장하지 못했어요. 인터넷을 확인해주세요'); }
+}
+async function removeReading(rid, mid){
+  if(!confirm('이 검침 기록을 삭제할까요?')) return;
+  try{
+    await deleteRow('readings', rid);
+    state.readings = state.readings.filter(x => x.id !== rid);
+    toast('삭제했어요');
+    navReplace('#hist/' + mid);
+  }catch(e){ toast('삭제하지 못했어요. 인터넷을 확인해주세요'); }
+}
+
+/* ---------- 이력 폼 ---------- */
+function renderLogForm(mid, lid){
+  const m = state.machines.find(x => x.id === mid);
+  if(!m){ nav('#'); return; }
+  const l = lid ? state.logs.find(x => x.id === lid) : null;
+  const app = document.getElementById('app');
+
+  app.innerHTML =
+    headerHTML((l ? '이력 수정' : '이력 추가') + ' · ' + m.model, false, '#hist/' + mid) +
+    '<div class="section">' +
+      field('날짜 <b>*</b>', '<input class="input" id="l_date" type="date" value="' + esc(l ? l.log_date : ymd(todayD())) + '">') +
+      field('유형', pickHTML('l_type', LOG_TYPES, (l && l.log_type) || 'A/S')) +
+      field('내용', '<textarea class="input" id="l_memo" placeholder="예: 급지 롤러 교체, 드럼 청소 등">' + esc(l ? l.memo : '') + '</textarea>') +
+      '<div class="hint" style="margin:-6px 0 16px;">유형을 <b>토너교체</b>로 저장하면 기기의 토너 교체일이 자동으로 갱신돼요.</div>' +
+      '<button class="btn" onclick="saveLog(\'' + mid + '\',' + (l ? '\'' + l.id + '\'' : 'null') + ')">저장</button>' +
+      (l ? '<button class="btn danger" onclick="removeLog(\'' + l.id + '\',\'' + mid + '\')">이 이력 삭제</button>' : '') +
+    '</div>';
+}
+async function saveLog(mid, lid){
+  const date = document.getElementById('l_date').value;
+  if(!date){ toast('날짜를 선택해주세요'); return; }
+  const type = document.getElementById('l_type').dataset.val;
+  const data = {
+    machine_id: mid,
+    log_date: date,
+    log_type: type,
+    memo: valOrNull('l_memo')
+  };
+  try{
+    if(lid){
+      const row = await updateRow('service_logs', lid, data);
+      const i = state.logs.findIndex(x => x.id === lid);
+      if(i > -1) state.logs[i] = row;
+    }else{
+      const row = await insertRow('service_logs', data);
+      state.logs.push(row);
+    }
+    if(type === '토너교체'){
+      try{
+        const mrow = await updateRow('machines', mid, { toner_date: date });
+        const mi = state.machines.findIndex(x => x.id === mid);
+        if(mi > -1) state.machines[mi] = mrow;
+      }catch(e){}
+    }
+    toast('저장했어요');
+    navReplace('#hist/' + mid);
+  }catch(e){ toast('저장하지 못했어요. 인터넷을 확인해주세요'); }
+}
+async function removeLog(lid, mid){
+  if(!confirm('이 이력을 삭제할까요?')) return;
+  try{
+    await deleteRow('service_logs', lid);
+    state.logs = state.logs.filter(x => x.id !== lid);
+    toast('삭제했어요');
+    navReplace('#hist/' + mid);
+  }catch(e){ toast('삭제하지 못했어요. 인터넷을 확인해주세요'); }
+}
+
+/* ---------- 월별 청구 ---------- */
+function billMove(n){
+  state.billYm = ymAdd(state.billYm || ymNow(), n);
+  renderBill();
+}
+function renderBill(){
+  const app = document.getElementById('app');
+  if(!state.billYm) state.billYm = ymNow();
+  const ym = state.billYm;
+
+  let grand = 0;
+  const cards = [];
+  state.companies.forEach(c => {
+    const ms = machinesOf(c.id);
+    if(!ms.length) return;
+    const hasRead = ms.some(m => readingsOf(m.id).some(r => r.ym === ym));
+    if(c.status === '해지' && !hasRead) return;
+    let sub = 0;
+    const rows = ms.map(m => {
+      const r = calcMonth(m, ym);
+      sub += r.charge;
+      return '<div class="bill-row">' +
+        '<div class="bm"><div class="mn">' + esc(m.model) + '</div><div class="bs">' + basisText(r) + '</div></div>' +
+        '<div class="bc">' + money(r.charge) + '원</div>' +
+      '</div>';
+    }).join('');
+    grand += sub;
+    cards.push('<div class="card bill-co">' +
+      '<div class="bname">' + esc(c.name) + (c.status === '해지' ? ' <span class="chip gray">해지</span>' : '') + '</div>' +
+      rows +
+      '<div class="bill-sub"><span>합계</span><span>' + money(sub) + '원</span></div>' +
+    '</div>');
+  });
+
+  app.innerHTML =
+    headerHTML('월별 청구', false, '#') +
+    '<div class="monthnav">' +
+      '<button class="iconbtn" onclick="billMove(-1)" aria-label="이전 달">‹</button>' +
+      '<div class="ym">' + fmtYm(ym) + '</div>' +
+      '<button class="iconbtn" onclick="billMove(1)" aria-label="다음 달">›</button>' +
+    '</div>' +
+    '<div class="section">' +
+      '<div class="total-card"><div class="tl">' + fmtYm(ym) + ' 청구 합계</div><div class="amt">' + money(grand) + '원</div></div>' +
+      (cards.length ? cards.join('') : '<div class="empty">이 달에 계산할 업체가 없어요.</div>') +
+      '<div class="bill-note">검침 입력을 기준으로 한 참고용 계산이에요.<br>검침이 없는 기기는 기본료만 넣었어요.</div>' +
+    '</div>';
 }
 
 /* ---------- 업체 폼 ---------- */
@@ -610,6 +987,16 @@ function segPick(id, val){
   Array.from(el.children).forEach(b => b.classList.toggle('on', b.textContent === val));
   if(id === 'm_type') toggleTypeFields(val);
 }
+function pickHTML(id, opts, cur){
+  return '<div class="pick" id="' + id + '" data-val="' + esc(cur) + '">' +
+    opts.map(o => '<button type="button" class="' + (o === cur ? 'on' : '') + '" onclick="pickSel(\'' + id + '\',\'' + o + '\')">' + o + '</button>').join('') +
+    '</div>';
+}
+function pickSel(id, val){
+  const el = document.getElementById(id);
+  el.dataset.val = val;
+  Array.from(el.children).forEach(b => b.classList.toggle('on', b.textContent === val));
+}
 
 async function saveCompany(cid){
   const name = document.getElementById('f_name').value.trim();
@@ -639,12 +1026,15 @@ async function saveCompany(cid){
   }catch(e){ toast('저장하지 못했어요. 인터넷을 확인해주세요'); }
 }
 async function removeCompany(cid){
-  const ms = machinesOf(cid).length;
-  if(!confirm('이 업체를 삭제할까요?' + (ms ? '\n등록된 기기 ' + ms + '대 기록도 함께 삭제됩니다.' : ''))) return;
+  const ms = machinesOf(cid);
+  if(!confirm('이 업체를 삭제할까요?' + (ms.length ? '\n등록된 기기 ' + ms.length + '대와 검침·이력 기록도 함께 삭제됩니다.' : ''))) return;
   try{
     await deleteRow('companies', cid);
+    const mids = ms.map(m => m.id);
     state.companies = state.companies.filter(x => x.id !== cid);
     state.machines = state.machines.filter(x => x.company_id !== cid);
+    state.readings = state.readings.filter(x => !mids.includes(x.machine_id));
+    state.logs = state.logs.filter(x => !mids.includes(x.machine_id));
     toast('삭제했어요');
     navReplace('#');
   }catch(e){ toast('삭제하지 못했어요. 인터넷을 확인해주세요'); }
@@ -673,6 +1063,7 @@ function renderMachineForm(cid, mid){
     '<div class="section">' +
       field('복합기 모델명 <b>*</b>', '<input class="input" id="m_model" value="' + esc(m ? m.model : '') + '" placeholder="예: 신도리코 D420">') +
       field('시리얼 / 관리번호', '<input class="input" id="m_serial" value="' + esc(m ? m.serial_no : '') + '" placeholder="기기 구분용 (선택)">') +
+      field('토너 모델명', '<input class="input" id="m_toner_model" value="' + esc(m ? m.toner_model : '') + '" placeholder="예: TN-2450 (방문 준비용)">') +
       field('렌탈 방식', segHTML('m_type', ['매수제', '기간제'], type)) +
       '<div id="pagesFields">' +
         '<div class="grid2">' +
@@ -718,6 +1109,7 @@ async function saveMachine(cid, mid){
     company_id: cid,
     model,
     serial_no: valOrNull('m_serial'),
+    toner_model: valOrNull('m_toner_model'),
     rental_type: type,
     mono_pages: type === '매수제' ? numOrNull('m_mono') : null,
     color_pages: type === '매수제' ? numOrNull('m_color') : null,
@@ -744,10 +1136,12 @@ async function saveMachine(cid, mid){
   }catch(e){ toast('저장하지 못했어요. 인터넷을 확인해주세요'); }
 }
 async function removeMachine(mid, cid){
-  if(!confirm('이 기기를 삭제할까요?')) return;
+  if(!confirm('이 기기를 삭제할까요?\n검침·이력 기록도 함께 삭제됩니다.')) return;
   try{
     await deleteRow('machines', mid);
     state.machines = state.machines.filter(x => x.id !== mid);
+    state.readings = state.readings.filter(x => x.machine_id !== mid);
+    state.logs = state.logs.filter(x => x.machine_id !== mid);
     toast('삭제했어요');
     navReplace('#c/' + cid);
   }catch(e){ toast('삭제하지 못했어요. 인터넷을 확인해주세요'); }
@@ -793,6 +1187,7 @@ document.addEventListener('keydown', (e) => {
 });
 function unlock(){
   document.getElementById('lock').hidden = true;
+  pinBuf = '';
   loadAll(true);
   render();
 }
