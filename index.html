@@ -188,6 +188,41 @@ textarea.input{min-height:96px; padding:14px 16px; resize:vertical; line-height:
 .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
 .hint{font-size:.85rem; color:var(--ink2); margin-top:6px;}
 
+/* ---------- PC 테이블 모드 ---------- */
+#app.wide{max-width:none;}
+.pc-wrap{display:flex; align-items:flex-start;}
+.pc-side{width:200px; flex:none; padding:16px 4px 16px 16px; position:sticky; top:76px; align-self:flex-start;}
+.pc-side .slab{font-size:.75rem; color:var(--ink2); font-weight:700; letter-spacing:.06em; margin:14px 10px 6px;}
+.pc-side .f{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:9px 12px; border-radius:10px; cursor:pointer; font-weight:700; color:var(--ink2); font-size:.95rem;}
+.pc-side .f:hover{background:#EFEEE8;}
+.pc-side .f.on{background:var(--ink); color:var(--paper);}
+.pc-side .f .cnt{font-feature-settings:'tnum'; font-size:.85rem; opacity:.8;}
+.pc-main{flex:1; min-width:0; padding:16px;}
+.pc-tools{display:flex; gap:10px; margin-bottom:12px;}
+.pc-tools .search{flex:1; max-width:440px;}
+.pc-tools .btn.pcadd{width:auto; min-height:52px; padding:0 20px;}
+.pc-tablebox{border:1px solid var(--line); border-radius:var(--r); overflow:auto; background:var(--card); max-height:calc(100vh - 230px);}
+.pctbl{width:100%; border-collapse:collapse; font-size:.92rem;}
+.pctbl th{position:sticky; top:0; z-index:2; background:#F3F2EC; text-align:left; font-size:.78rem; color:var(--ink2); font-weight:700; padding:10px 12px; border-bottom:1px solid var(--line); white-space:nowrap;}
+.pctbl td{padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:middle;}
+.pctbl tr.corow:hover td{background:#FBFAF7;}
+.pctbl tr.corow.closed td{opacity:.6;}
+.pctbl td.num{text-align:right; font-feature-settings:'tnum'; white-space:nowrap;}
+.pctbl td.strong{font-weight:800;}
+.pctbl td.memo{max-width:170px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--ink2); font-size:.88rem;}
+.rowtg{border:none; background:none; font-size:1rem; color:var(--ink2); padding:2px 6px; cursor:pointer;}
+.colink{font-weight:800; cursor:pointer;}
+.colink:hover{color:var(--cyan); text-decoration:underline;}
+.dimtx{color:var(--ink2); font-weight:500; font-size:.88rem;}
+tr.mblock td{background:#FAF9F5; border-bottom:1px solid var(--line); padding:10px 14px 14px;}
+.maddr{color:var(--ink2); font-size:.88rem; margin:0 0 8px;}
+.mtbl{width:100%; border-collapse:collapse; font-size:.88rem; background:var(--card); border:1px solid var(--line);}
+.mtbl th{background:#F3F2EC; font-size:.75rem; color:var(--ink2); padding:7px 10px; text-align:left; font-weight:700; position:static;}
+.mtbl td{padding:8px 10px; border-top:1px solid var(--line); vertical-align:middle;}
+.mtbl td.num{text-align:right; font-feature-settings:'tnum'; white-space:nowrap;}
+.mbtns{margin-top:10px;}
+.mbtns button{border:1px solid var(--line); background:var(--card); border-radius:10px; padding:8px 14px; font-weight:700; color:var(--ink); font-size:.92rem;}
+
 /* ---------- 토스트 ---------- */
 #toast{
   position:fixed; bottom:96px; left:50%; transform:translateX(-50%);
@@ -229,7 +264,7 @@ textarea.input{min-height:96px; padding:14px 16px; resize:vertical; line-height:
 <div id="lock" hidden>
   <span class="cbar"><i></i><i></i><i></i><i></i></span>
   <h2>복합기 렌탈장부</h2>
-  <p>비밀번호 4자리를 눌러주세요 <span style="opacity:.5;font-size:.85em;">· v2</span></p>
+  <p>비밀번호 4자리를 눌러주세요 <span style="opacity:.5;font-size:.85em;">· v3</span></p>
   <div class="dots" id="dots"><i></i><i></i><i></i><i></i></div>
   <div class="pad" id="pad"></div>
   <div id="lockmsg"></div>
@@ -266,7 +301,9 @@ const state = {
   error: null,
   q: '',
   showClosed: false,
-  billYm: null
+  billYm: null,
+  pcFilter: 'all',
+  collapsedRows: {}
 };
 
 /* ================= 유틸 ================= */
@@ -499,6 +536,7 @@ function render(){
   const h = location.hash.replace(/^#\/?/, '');
   const parts = h ? h.split('/') : [];
   window.scrollTo(0, 0);
+  app.classList.toggle('wide', isPC() && parts.length === 0 && state.loaded);
 
   if(!state.loaded){
     app.innerHTML = headerHTML('복합기 렌탈장부', false) +
@@ -515,6 +553,7 @@ function render(){
   if(parts[0] === 'rf' && parts[1]) return renderReadingForm(parts[1], parts[2] || null);
   if(parts[0] === 'lf' && parts[1]) return renderLogForm(parts[1], parts[2] || null);
   if(parts[0] === 'bill') return renderBill();
+  if(isPC()) return renderHomePC();
   renderHome();
 }
 
@@ -654,6 +693,222 @@ function coCardHTML(c){
     '</div>' +
   '</div>';
 }
+
+/* ================= PC 테이블 모드 ================= */
+const mqPC = window.matchMedia('(min-width: 1024px)');
+try{ mqPC.addEventListener('change', () => render()); }catch(e){ mqPC.addListener(() => render()); }
+function isPC(){ return mqPC.matches; }
+function trunc(s, n){ s = String(s || ''); return s.length > n ? s.slice(0, n) + '…' : s; }
+
+const PC_FILTERS = [
+  { k:'all', label:'전체', grp:'상태' },
+  { k:'active', label:'진행중', grp:'상태' },
+  { k:'closed', label:'해지', grp:'상태' },
+  { k:'visit', label:'방문 임박·지남', grp:'챙길 일' },
+  { k:'expire', label:'만료 30일 내', grp:'챙길 일' },
+  { k:'toner', label:'토너 90일+', grp:'챙길 일' },
+  { k:'unread', label:'이번 달 검침 전', grp:'챙길 일' }
+];
+function expInfo(m){
+  if(!m.start_date || !m.contract_months) return null;
+  const end = addMonths(parseD(m.start_date), m.contract_months);
+  return { end, dd: diffDays(end, todayD()) };
+}
+function coMatchFilter(c, k){
+  const act = companyActive(c);
+  const ms = machinesOf(c.id);
+  const T = todayD();
+  if(k === 'all') return true;
+  if(k === 'active') return act;
+  if(k === 'closed') return !act;
+  if(k === 'visit'){
+    if(!act || !c.visit_date) return false;
+    return diffDays(parseD(c.visit_date), T) <= 7;
+  }
+  if(k === 'expire') return act && ms.some(m => { const e = expInfo(m); return e && e.dd <= 30; });
+  if(k === 'toner') return act && ms.some(m => m.toner_date && diffDays(T, parseD(m.toner_date)) >= 90);
+  if(k === 'unread') return act && ms.some(m => {
+    if(m.rental_type !== '매수제') return false;
+    const rs = readingsOf(m.id);
+    return rs.length && !rs.some(r => r.ym === ymNow());
+  });
+  return true;
+}
+function expCellHTML(e){
+  if(!e) return '<span class="dimtx">—</span>';
+  if(e.dd < 0) return '<span class="chip mag">' + (-e.dd) + '일 지남</span>';
+  if(e.dd <= 30) return '<span class="chip yel">D-' + e.dd + '</span>';
+  return '<span class="dimtx">' + fmtDateObj(e.end) + '</span>';
+}
+function tonerDaysHTML(days){
+  let cls = 'gray';
+  if(days >= 150) cls = 'mag'; else if(days >= 90) cls = 'yel';
+  return '<span class="chip ' + cls + '">' + days + '일</span>';
+}
+function setPcFilter(k){ state.pcFilter = k; renderPCSide(); renderPCBody(); }
+function toggleRow(cid){ state.collapsedRows[cid] = !state.collapsedRows[cid]; renderPCBody(); }
+
+function renderHomePC(){
+  const app = document.getElementById('app');
+  app.innerHTML =
+    headerHTML('렌탈장부', true) +
+    '<div class="pc-wrap">' +
+      '<aside class="pc-side" id="pcside"></aside>' +
+      '<main class="pc-main">' +
+        '<div class="pc-tools">' +
+          '<input class="search" id="searchbox" type="search" placeholder="업체명·담당자·기기 검색" value="' + esc(state.q) + '">' +
+          '<button class="btn pcadd" onclick="nav(\'#cf\')">＋ 업체 등록</button>' +
+        '</div>' +
+        '<div class="pc-tablebox"><table class="pctbl">' +
+          '<thead><tr>' +
+            '<th style="width:36px;"></th><th>업체명</th><th>담당자</th><th>대표전화</th><th>방문 예정</th>' +
+            '<th style="text-align:right;">기기</th><th>계약 만료</th><th>토너</th><th>검침</th>' +
+            '<th style="text-align:right;">이번 달 청구</th><th>비고</th><th>관리</th>' +
+          '</tr></thead>' +
+          '<tbody id="pcbody"></tbody>' +
+        '</table></div>' +
+        '<div class="pc-foot" id="pcfoot"></div>' +
+      '</main>' +
+    '</div>';
+  const sb = document.getElementById('searchbox');
+  sb.addEventListener('input', () => { state.q = sb.value; renderPCBody(); });
+  renderPCSide();
+  renderPCBody();
+}
+function renderPCSide(){
+  const el = document.getElementById('pcside');
+  if(!el) return;
+  let html = '', grp = '';
+  PC_FILTERS.forEach(f => {
+    if(f.grp !== grp){ grp = f.grp; html += '<div class="slab">' + grp + '</div>'; }
+    const cnt = state.companies.filter(c => coMatchFilter(c, f.k)).length;
+    html += '<div class="f' + (state.pcFilter === f.k ? ' on' : '') + '" onclick="setPcFilter(\'' + f.k + '\')">' +
+      '<span>' + f.label + '</span><span class="cnt">' + cnt + '</span></div>';
+  });
+  el.innerHTML = html;
+}
+function renderPCBody(){
+  const body = document.getElementById('pcbody');
+  const foot = document.getElementById('pcfoot');
+  if(!body) return;
+  const all = state.companies.filter(c => matchQ(c) && coMatchFilter(c, state.pcFilter));
+  const active = all.filter(c => c.status !== '해지');
+  const closed = all.filter(c => c.status === '해지');
+  active.sort((a, b) => {
+    const da = a.visit_date ? parseD(a.visit_date).getTime() : Infinity;
+    const db = b.visit_date ? parseD(b.visit_date).getTime() : Infinity;
+    if(da !== db) return da - db;
+    return (a.name || '').localeCompare(b.name || '', 'ko');
+  });
+  closed.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ko'));
+  const list = active.concat(closed);
+  if(!list.length){
+    body.innerHTML = '<tr><td colspan="12"><div class="empty small">표시할 업체가 없어요.</div></td></tr>';
+    if(foot) foot.textContent = '';
+    return;
+  }
+  body.innerHTML = list.map(pcCoRowHTML).join('');
+  let mcnt = 0, sum = 0;
+  list.forEach(c => {
+    const ms = machinesOf(c.id);
+    mcnt += ms.length;
+    ms.forEach(m => { sum += calcMonth(m, ymNow()).charge; });
+  });
+  if(foot) foot.textContent = '업체 ' + list.length + '곳 · 기기 ' + mcnt + '대 · ' + fmtYm(ymNow()) + ' 청구 합계 ' + money(sum) + '원';
+}
+function pcCoRowHTML(c){
+  const ms = machinesOf(c.id);
+  const act = companyActive(c);
+  const T = todayD();
+  const collapsed = !!state.collapsedRows[c.id];
+
+  let worstExp = null;
+  ms.forEach(m => { const e = expInfo(m); if(e && (!worstExp || e.dd < worstExp.dd)) worstExp = e; });
+  let worstToner = null;
+  ms.forEach(m => {
+    if(!m.toner_date) return;
+    const d = diffDays(T, parseD(m.toner_date));
+    if(worstToner === null || d > worstToner) worstToner = d;
+  });
+  let readApp = 0, readMiss = 0;
+  ms.forEach(m => {
+    if(m.rental_type !== '매수제') return;
+    const rs = readingsOf(m.id);
+    if(!rs.length) return;
+    readApp++;
+    if(!rs.some(r => r.ym === ymNow())) readMiss++;
+  });
+  const readCell = (!act || !readApp)
+    ? '<span class="dimtx">—</span>'
+    : (readMiss ? '<span class="chip yel">전 ' + readMiss + '대</span>' : '<span class="chip gray">완료</span>');
+  const charge = ms.length ? ms.reduce((s, m) => s + calcMonth(m, ymNow()).charge, 0) : null;
+
+  let html = '<tr class="corow' + (act ? '' : ' closed') + '">' +
+    '<td class="tg"><button class="rowtg" onclick="toggleRow(\'' + c.id + '\')" aria-label="펼침">' + (collapsed ? '▸' : '▾') + '</button></td>' +
+    '<td class="nm"><span class="colink" onclick="nav(\'#c/' + c.id + '\')">' + esc(c.name) + '</span>' + (act ? '' : ' <span class="chip gray">해지</span>') + '</td>' +
+    '<td>' + (c.contact_name ? esc(c.contact_name) : '<span class="dimtx">—</span>') + '</td>' +
+    '<td style="white-space:nowrap;">' + (c.phone ? esc(c.phone) : '<span class="dimtx">—</span>') + '</td>' +
+    '<td style="white-space:nowrap;">' + (act ? visitChip(c.visit_date, false) : '<span class="dimtx">—</span>') + (act && c.visit_date ? ' <span class="dimtx">' + fmtD(c.visit_date) + '</span>' : '') + '</td>' +
+    '<td class="num">' + ms.length + '대</td>' +
+    '<td>' + expCellHTML(worstExp) + '</td>' +
+    '<td>' + (worstToner === null ? '<span class="dimtx">—</span>' : tonerDaysHTML(worstToner)) + '</td>' +
+    '<td>' + readCell + '</td>' +
+    '<td class="num strong">' + (charge !== null ? money(charge) + '원' : '<span class="dimtx">—</span>') + '</td>' +
+    '<td class="memo" title="' + esc(c.memo || '') + '">' + esc(trunc(c.memo, 18)) + '</td>' +
+    '<td class="act" style="white-space:nowrap;"><button class="editlink" onclick="nav(\'#cf/' + c.id + '\')">수정</button></td>' +
+  '</tr>';
+  if(!collapsed) html += pcMachineBlockHTML(c, ms);
+  return html;
+}
+function pcMachineBlockHTML(c, ms){
+  let inner = '';
+  if(c.address) inner += '<div class="maddr">📍 ' + esc(c.address) + '</div>';
+  if(ms.length){
+    inner += '<table class="mtbl"><thead><tr>' +
+      '<th>모델</th><th>방식</th><th>계약</th><th>만료</th><th>월 기본 / 초과단가</th>' +
+      '<th style="text-align:right;">기본료</th><th>토너</th><th style="text-align:right;">이번 달</th><th>관리</th>' +
+      '</tr></thead><tbody>' + ms.map(m => pcMRowHTML(m)).join('') + '</tbody></table>';
+  }else{
+    inner += '<div class="dimtx" style="padding:4px 2px 2px;">등록된 기기 없음</div>';
+  }
+  inner += '<div class="mbtns"><button onclick="nav(\'#mf/' + c.id + '\')">＋ 기기 추가</button></div>';
+  return '<tr class="mblock"><td></td><td colspan="11">' + inner + '</td></tr>';
+}
+function pcMRowHTML(m){
+  const T = todayD();
+  const cm = calcMonth(m, ymNow());
+  const isCnt = m.rental_type === '매수제';
+  let pages = '<span class="dimtx">—</span>';
+  if(isCnt){
+    pages = '흑 ' + money(m.mono_pages || 0) + ' · 컬 ' + money(m.color_pages || 0) + '장' +
+      '<br><span class="dimtx">초과 ' + money(m.mono_over_fee || 0) + ' / ' + money(m.color_over_fee || 0) + '원</span>';
+  }
+  let toner = '<span class="dimtx">—</span>';
+  if(m.toner_date){
+    toner = fmtD(m.toner_date) + ' ' + tonerDaysHTML(diffDays(T, parseD(m.toner_date)));
+  }
+  if(m.toner_model) toner += '<br><span class="dimtx">' + esc(m.toner_model) + '</span>';
+  let monthNote = '';
+  if(cm.basis === 'period') monthNote = '기간제';
+  else if(cm.basis === 'baseline') monthNote = '기준 검침 달';
+  else if(cm.basis === 'noread') monthNote = '검침 없음';
+  else monthNote = (cm.mono_over || cm.color_over)
+    ? '초과 흑 ' + money(cm.mono_over) + ' · 컬 ' + money(cm.color_over)
+    : '기본 내';
+  const lg = logsOf(m.id)[0];
+  return '<tr>' +
+    '<td><b>' + esc(m.model) + '</b>' + (m.serial_no ? '<br><span class="dimtx">' + esc(m.serial_no) + '</span>' : '') + '</td>' +
+    '<td>' + esc(m.rental_type || '매수제') + '</td>' +
+    '<td>' + (m.start_date ? fmtD(m.start_date) + '<br><span class="dimtx">' + elapsedText(m.start_date) + (lg ? ' · 최근 ' + fmtD(lg.log_date) + ' ' + esc(lg.log_type) : '') + '</span>' : '<span class="dimtx">—</span>') + '</td>' +
+    '<td>' + expCellHTML(expInfo(m)) + '</td>' +
+    '<td>' + pages + '</td>' +
+    '<td class="num">' + ((m.base_fee !== null && m.base_fee !== undefined) ? money(m.base_fee) + '원' : '<span class="dimtx">—</span>') + '</td>' +
+    '<td>' + toner + '</td>' +
+    '<td class="num"><b>' + money(cm.charge) + '원</b><br><span class="dimtx">' + monthNote + '</span></td>' +
+    '<td style="white-space:nowrap;"><button class="editlink" onclick="nav(\'#rf/' + m.id + '\')">검침</button> <button class="editlink" onclick="nav(\'#hist/' + m.id + '\')">이력</button> <button class="editlink" onclick="nav(\'#mf/' + m.company_id + '/' + m.id + '\')">수정</button></td>' +
+  '</tr>';
+}
+
 
 /* ---------- 업체 상세 ---------- */
 function renderDetail(cid){
