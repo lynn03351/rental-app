@@ -166,6 +166,7 @@ textarea.input{min-height:96px; padding:14px 16px; resize:vertical; line-height:
   position:fixed; inset:0; z-index:200; background:var(--paper);
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:24px;
 }
+#lock[hidden]{display:none;}
 #lock .cbar i{width:14px; height:14px;}
 #lock h2{font-size:1.4rem; font-weight:800; margin:14px 0 2px;}
 #lock p{color:var(--ink2); margin:0 0 18px;}
@@ -784,6 +785,12 @@ function pinKey(k){
     }
   }
 }
+document.addEventListener('keydown', (e) => {
+  const lockEl = document.getElementById('lock');
+  if(!lockEl || lockEl.hidden) return;
+  if(e.key >= '0' && e.key <= '9') pinKey(e.key);
+  else if(e.key === 'Backspace') pinKey('del');
+});
 function unlock(){
   document.getElementById('lock').hidden = true;
   loadAll(true);
